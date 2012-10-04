@@ -90,7 +90,7 @@ public class MainConfig {
 		String password = System.getenv("OPENSHIFT_NOSQL_DB_PASSWORD");
 		Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
 		UserCredentials userCredentials = new UserCredentials(username,password);
-		String databaseName = "notebook";
+		String databaseName = "jobsnearyou";
 		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
 		return mongoDbFactory;
 	}
