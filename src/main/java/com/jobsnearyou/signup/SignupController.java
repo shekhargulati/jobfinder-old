@@ -1,4 +1,4 @@
-package com.jobsnearyour.signup;
+package com.jobsnearyou.signup;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
