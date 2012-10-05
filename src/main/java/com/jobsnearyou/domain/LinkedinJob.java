@@ -217,7 +217,7 @@ public class LinkedinJob {
 	}
 
 	public String toJson() {
-		return new JSONSerializer().include("location").include("company").exclude("*.class")
+		return new JSONSerializer().include("location").include("company").include("skills").exclude("*.class")
 				.serialize(this);
 	}
 
@@ -227,7 +227,7 @@ public class LinkedinJob {
 	}
 
 	public static String toJsonArray(Collection<LinkedinJob> collection) {
-		return new JSONSerializer().include("location").include("company").exclude("*.class")
+		return new JSONSerializer().include("location").include("company").include("skills").exclude("*.class")
 				.serialize(collection);
 	}
 
