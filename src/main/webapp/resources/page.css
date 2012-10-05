@@ -9,7 +9,7 @@ body {
 	height: 92px;
 	position: relative;
 	display: block;
-	background-color: #006600;
+	background-color: #660004;
 }
 
 #header h1 a {
@@ -20,7 +20,7 @@ body {
 #leftNav {
 	float: left;
 	width: 150px;
-	background-color: #ccffcc;
+	background-color: #D5DFDE;
 }
 
 #content {
