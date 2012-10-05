@@ -19,12 +19,8 @@ public class GooglePlacesClient {
 	// Create our transport.
 	private static final HttpTransport transport = new ApacheHttpTransport();
 
-	private static final String[] API_KEYS = {
-			"AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8",
-			"AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E" };
-
-	// private static final String API_KEY =
-	// "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
+	private static final String API_KEY = "AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E";
+//	private static final String API_KEY =  "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
 	private static final String PLACES_TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?";
 
 	public Places performTextSearch(String query) {
