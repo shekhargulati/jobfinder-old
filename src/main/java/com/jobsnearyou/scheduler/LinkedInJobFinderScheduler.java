@@ -23,7 +23,7 @@ import com.jobsnearyou.domain.LinkedinJob;
 @Component
 public class LinkedInJobFinderScheduler {
 
-	private static final int SEARCH_COUNT = 5;
+	private static final int SEARCH_COUNT = 2;
 
 	private final String[] skills = { "java", "ruby", "python", "node.js",
 			"mongodb" };
@@ -37,6 +37,7 @@ public class LinkedInJobFinderScheduler {
 
 	@Inject
 	GooglePlacesClient googlePlacesClient;
+
 	int jobCount = 1;
 
 	@Scheduled(fixedDelay = 180L * 60 * 1000)
@@ -70,25 +71,50 @@ public class LinkedInJobFinderScheduler {
 				LinkedinJob jobWithLocation = findLinkedJobWithSimilarLocation(linkedinJob);
 
 				if (jobWithLocation != null) {
+					System.out
+							.println("Found existing Location so not hitting Google places");
 					linkedinJob.setLocation(jobWithLocation.getLocation());
 					linkedinJob.setFormattedAddress(jobWithLocation
 							.getFormattedAddress());
 				}
 				else {
+					System.out
+							.println("Making Google Place Client Api call....");
 					String locationQuery = toLocationQuery(linkedinJob);
-					Place place = googlePlacesClient
+					Places places = googlePlacesClient
 							.performTextSearch(locationQuery);
-					if (place == null) {
+					String status = places.status;
+					if (StringUtils.equals("OK", status)) {
+						Place place = places.results.get(0);
+						linkedinJob
+								.setFormattedAddress(place.formatted_address);
+						linkedinJob.setLocation(new double[] {
+								place.geometry.location.lat,
+								place.geometry.location.lng });
+					}
+					else if (StringUtils.equals("ZERO_RESULTS", status)) {
+						System.out.println("No result found for ... "
+								+ locationQuery);
 						continue;
 					}
-					linkedinJob.setFormattedAddress(place.formatted_address);
-					linkedinJob.setLocation(new double[] {
-							place.geometry.location.lat,
-							place.geometry.location.lng });
-					System.out.println("Place " + place);
-				}
+					else if (StringUtils.equals("INVALID_REQUEST", status)) {
+						System.out
+								.println("The Google Places Search query might be incorrect ... "
+										+ locationQuery);
+						continue;
+					}
+					else if (StringUtils.equals("OVER_QUERY_LIMIT", status)) {
+						System.out
+								.println("The application has exceed Google place Query Limit.Breaking the loop. Will try in next three hours..");
+						break;
+					}
+					else if (StringUtils.equals("REQUEST_DENIED", status)) {
+						System.out
+								.println("Request is denied. Breaking the loop will try again after three hours");
+						break;
+					}
 
-				System.out.println(linkedinJob);
+				}
 				linkedinJobs.add(linkedinJob);
 			}
 
@@ -129,7 +155,8 @@ public class LinkedInJobFinderScheduler {
 	private boolean jobExistsInDatabase(Job job) {
 		Query query = Query.query(Criteria.where("linkedinJobId").is(
 				job.getId()));
-		return mongoTemplate.findOne(query, Job.class) == null ? false : true;
+		return mongoTemplate.findOne(query, LinkedinJob.class) == null ? false
+				: true;
 	}
 
 }

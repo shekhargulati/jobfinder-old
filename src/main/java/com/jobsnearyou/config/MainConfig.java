@@ -69,7 +69,7 @@ public class MainConfig {
 	
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
-		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbOpenShiftFactory());
+		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
 		return mongoTemplate;
 	}
 	
@@ -82,16 +82,16 @@ public class MainConfig {
 		return mongoDbFactory;
 	}
 	
-	@Bean
-	public MongoDbFactory mongoDbOpenShiftFactory() throws Exception {
-		String openshiftMongoDbHost = System.getenv("OPENSHIFT_NOSQL_DB_HOST");
-		int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_NOSQL_DB_PORT"));
-		String username = System.getenv("OPENSHIFT_NOSQL_DB_USERNAME");
-		String password = System.getenv("OPENSHIFT_NOSQL_DB_PASSWORD");
-		Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
-		UserCredentials userCredentials = new UserCredentials(username,password);
-		String databaseName = "jobsnearyou";
-		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
-		return mongoDbFactory;
-	}
+//	@Bean
+//	public MongoDbFactory mongoDbOpenShiftFactory() throws Exception {
+//		String openshiftMongoDbHost = System.getenv("OPENSHIFT_NOSQL_DB_HOST");
+//		int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_NOSQL_DB_PORT"));
+//		String username = System.getenv("OPENSHIFT_NOSQL_DB_USERNAME");
+//		String password = System.getenv("OPENSHIFT_NOSQL_DB_PASSWORD");
+//		Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
+//		UserCredentials userCredentials = new UserCredentials(username,password);
+//		String databaseName = "jobsnearyou";
+//		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
+//		return mongoDbFactory;
+//	}
 }

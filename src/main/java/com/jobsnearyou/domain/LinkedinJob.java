@@ -2,6 +2,7 @@ package com.jobsnearyou.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.social.linkedin.api.Job;
+
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
 
 @Document(collection = "jobs")
 public class LinkedinJob {
@@ -210,6 +214,27 @@ public class LinkedinJob {
 				+ company + ", locationDescription=" + locationDescription
 				+ ", city=" + city + ", country=" + country + ", jobTitle="
 				+ jobTitle + ", location=" + Arrays.toString(location) + "]";
+	}
+
+	public String toJson() {
+		return new JSONSerializer().include("location").include("company").exclude("*.class")
+				.serialize(this);
+	}
+
+	public static LinkedinJob fromJsonToPark(String json) {
+		return new JSONDeserializer<LinkedinJob>().use(null, LinkedinJob.class)
+				.deserialize(json);
+	}
+
+	public static String toJsonArray(Collection<LinkedinJob> collection) {
+		return new JSONSerializer().include("location").include("company").exclude("*.class")
+				.serialize(collection);
+	}
+
+	public static Collection<LinkedinJob> fromJsonArrayToParks(String json) {
+		return new JSONDeserializer<List<LinkedinJob>>()
+				.use(null, ArrayList.class).use("location", LinkedinJob.class)
+				.deserialize(json);
 	}
 
 }

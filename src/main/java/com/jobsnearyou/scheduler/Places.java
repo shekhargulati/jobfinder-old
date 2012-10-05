@@ -8,5 +8,8 @@ public class Places {
 	
 	@Key
 	List<Place> results;
+	
+	@Key
+	String status;
 
 }

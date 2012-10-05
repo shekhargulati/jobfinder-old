@@ -1,9 +1,6 @@
 package com.jobsnearyou.scheduler;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import com.google.api.client.googleapis.GoogleHeaders;
 import com.google.api.client.http.GenericUrl;
@@ -22,11 +19,11 @@ public class GooglePlacesClient {
 	// Create our transport.
 	private static final HttpTransport transport = new ApacheHttpTransport();
 
-//	private static final String API_KEY = "AIzaSyATvS5bY-3CkeiedEWtr5WFHEQFOi-9uYs";
-	private static final String API_KEY =  "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
+	private static final String API_KEY = "AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E";
+//	private static final String API_KEY =  "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
 	private static final String PLACES_TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?";
 
-	public Place performTextSearch(String query) {
+	public Places performTextSearch(String query) {
 		try {
 			System.out.println("Using Google Places to search ... " + query);
 			HttpRequestFactory httpRequestFactory = createRequestFactory(transport);
@@ -40,8 +37,7 @@ public class GooglePlacesClient {
 			String json = request.execute().parseAsString();
 			Gson gson = new Gson();
 			Places places = gson.fromJson(json, Places.class);
-			List<Place> results = places.results;
-			return CollectionUtils.isEmpty(results) ? null : results.get(0);
+			return places;
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
