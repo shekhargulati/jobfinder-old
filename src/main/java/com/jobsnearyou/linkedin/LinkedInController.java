@@ -1,6 +1,7 @@
 package com.jobsnearyou.linkedin;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jobsnearyou.domain.LinkedinJob;
+import com.jobsnearyou.googleapis.DistanceResponse;
+import com.jobsnearyou.googleapis.GoogleDistanceClient;
 
 @Controller
 public class LinkedInController {
@@ -28,6 +31,8 @@ public class LinkedInController {
 	private ConnectionRepository connectionRepository;
 	@Inject
 	private LinkedInJobService linkedInJobService;
+	@Inject
+	private GoogleDistanceClient googleDistanceClient;
 
 	@RequestMapping(value = "/linkedin", method = RequestMethod.GET)
 	public String home(Principal currentUser, Model model) {
@@ -42,21 +47,6 @@ public class LinkedInController {
 		return "linkedin/profile";
 	}
 
-//	@RequestMapping(value = "/linkedin/jobs", method = RequestMethod.GET)
-//	public String jobs(Principal currentUser, Model model) {
-//		
-//		Connection<LinkedIn> connection = connectionRepository
-//				.findPrimaryConnection(LinkedIn.class);
-//		if (connection == null) {
-//			return "redirect:/connect/linkedin";
-//		}
-//		LinkedIn api = connection.getApi();
-//		LinkedInProfileFull userProfileFull = api.profileOperations().getUserProfileFull();
-//		List<String> skills = userProfileFull.getSkills();
-//		return null;
-//	}
-	
-	
 	@RequestMapping("/linkedin/jobs")
 	public ResponseEntity<String> allJobs() {
 		HttpHeaders headers = new HttpHeaders();
@@ -85,9 +75,16 @@ public class LinkedInController {
         headers.add("Content-Type", "application/json; charset=utf-8");
         
 		List<LinkedinJob> jobs = linkedInJobService.findAllLinkedInJobsNear(latitude, longitude);
-        return new ResponseEntity<String>(LinkedinJob.toJsonArray(jobs),headers, HttpStatus.OK);
+		List<LinkedinJobWithDistance> linkedinJobWithDistances = new ArrayList<LinkedinJobWithDistance>();
+		for (LinkedinJob linkedinJob : jobs) {
+			DistanceResponse response = googleDistanceClient.findDirections(linkedinJob.getLocation(), new double[]{latitude,longitude});
+			LinkedinJobWithDistance linkedinJobWithDistance = new LinkedinJobWithDistance(linkedinJob,response.rows[0].elements[0].distance,response.rows[0].elements[0].duration);
+			linkedinJobWithDistances.add(linkedinJobWithDistance);
+		}
+		
+        return new ResponseEntity<String>(LinkedinJobWithDistance.toJsonArray(linkedinJobWithDistances),headers, HttpStatus.OK);
 	}
-
+	
 	@RequestMapping("/linkedin/jobs/near/{skill}")
 	public ResponseEntity<String> allJobsNearWithSkill(@PathVariable("skill")String skill, 
 					@RequestParam("latitude")double latitude,@RequestParam("longitude")double longitude) {
@@ -95,6 +92,12 @@ public class LinkedInController {
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 		List<LinkedinJob> jobs = linkedInJobService.findAllLinkedInJobsNear(latitude, longitude,skill);
-        return new ResponseEntity<String>(LinkedinJob.toJsonArray(jobs),headers, HttpStatus.OK);
+		List<LinkedinJobWithDistance> linkedinJobWithDistances = new ArrayList<LinkedinJobWithDistance>();
+		for (LinkedinJob linkedinJob : jobs) {
+			DistanceResponse response = googleDistanceClient.findDirections(linkedinJob.getLocation(), new double[]{latitude,longitude});
+			LinkedinJobWithDistance linkedinJobWithDistance = new LinkedinJobWithDistance(linkedinJob,response.rows[0].elements[0].distance,response.rows[0].elements[0].duration);
+			linkedinJobWithDistances.add(linkedinJobWithDistance);
+		}
+        return new ResponseEntity<String>(LinkedinJobWithDistance.toJsonArray(linkedinJobWithDistances),headers, HttpStatus.OK);
 	}
 }

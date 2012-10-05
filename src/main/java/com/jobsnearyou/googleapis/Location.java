@@ -1,4 +1,4 @@
-package com.jobsnearyou.scheduler;
+package com.jobsnearyou.googleapis;
 
 public class Location {
 	public double lat;

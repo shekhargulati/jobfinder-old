@@ -1,4 +1,4 @@
-package com.jobsnearyou.scheduler;
+package com.jobsnearyou.googleapis;
 
 import org.springframework.stereotype.Component;
 
@@ -14,30 +14,36 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.gson.Gson;
 
 @Component
-public class GooglePlacesClient {
+public class GoogleDistanceClient {
 
 	// Create our transport.
 	private static final HttpTransport transport = new ApacheHttpTransport();
 
-	private static final String API_KEY = "AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E";
-//	private static final String API_KEY =  "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
-	private static final String PLACES_TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?";
+	private static final String DIRECTION_SEARCH_URL = "http://maps.googleapis.com/maps/api/distancematrix/json?";
 
-	public Places performTextSearch(String query) {
+	public DistanceResponse findDirections(double[] origins,
+			double[] destinations) {
 		try {
-			System.out.println("Using Google Places to search ... " + query);
+			System.out.println("Finding direction for origin " + origins
+					+ " , and destination " + destinations);
+
 			HttpRequestFactory httpRequestFactory = createRequestFactory(transport);
 			HttpRequest request = httpRequestFactory
-					.buildGetRequest(new GenericUrl(PLACES_TEXT_SEARCH_URL));
-			request.url.put("key", API_KEY);
-			request.url.put("query", query);
-			request.url.put("radius", 500);
+					.buildGetRequest(new GenericUrl(DIRECTION_SEARCH_URL));
+			// request.url.put("key", API_KEY);
+			request.url.put("origins", origins[0] + "," + origins[1]);
+			request.url.put("destinations", destinations[0] + ","
+					+ destinations[1]);
 			request.url.put("sensor", "false");
 
+			System.out.println(request.url.toString());
 			String json = request.execute().parseAsString();
+
+			System.out.println(json);
 			Gson gson = new Gson();
-			Places places = gson.fromJson(json, Places.class);
-			return places;
+			DistanceResponse response = gson.fromJson(json,
+					DistanceResponse.class);
+			return response;
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -57,5 +63,21 @@ public class GooglePlacesClient {
 				request.addParser(parser);
 			}
 		});
+	}
+
+	public static void main(String[] args) {
+		GoogleDistanceClient client = new GoogleDistanceClient();
+		DistanceResponse directions = client.findDirections(new double[] {
+				28.45467, 77.097816 }, new double[] { 28.5783696, 77.3305156 });
+
+		for (Row row : directions.rows) {
+			for (Element element : row.elements) {
+				System.out.println(element.distance);
+
+				System.out.println(element.duration);
+
+			}
+
+		}
 	}
 }

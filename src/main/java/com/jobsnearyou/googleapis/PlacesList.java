@@ -1,4 +1,4 @@
-package com.jobsnearyou.scheduler;
+package com.jobsnearyou.googleapis;
 
 import java.util.List;
 

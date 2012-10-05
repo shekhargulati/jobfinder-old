@@ -221,7 +221,7 @@ public class LinkedinJob {
 				.serialize(this);
 	}
 
-	public static LinkedinJob fromJsonToPark(String json) {
+	public static LinkedinJob fromJson(String json) {
 		return new JSONDeserializer<LinkedinJob>().use(null, LinkedinJob.class)
 				.deserialize(json);
 	}
@@ -231,7 +231,7 @@ public class LinkedinJob {
 				.serialize(collection);
 	}
 
-	public static Collection<LinkedinJob> fromJsonArrayToParks(String json) {
+	public static Collection<LinkedinJob> fromJsonArray(String json) {
 		return new JSONDeserializer<List<LinkedinJob>>()
 				.use(null, ArrayList.class).use("location", LinkedinJob.class)
 				.deserialize(json);

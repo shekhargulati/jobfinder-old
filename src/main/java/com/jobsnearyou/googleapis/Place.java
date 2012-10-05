@@ -1,4 +1,4 @@
-package com.jobsnearyou.scheduler;
+package com.jobsnearyou.googleapis;
 
 import com.google.api.client.util.Key;
 

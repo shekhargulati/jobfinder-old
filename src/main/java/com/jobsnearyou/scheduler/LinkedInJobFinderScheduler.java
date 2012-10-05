@@ -19,11 +19,14 @@ import org.springframework.social.linkedin.api.impl.LinkedInTemplate;
 import org.springframework.stereotype.Component;
 
 import com.jobsnearyou.domain.LinkedinJob;
+import com.jobsnearyou.googleapis.GooglePlacesClient;
+import com.jobsnearyou.googleapis.Place;
+import com.jobsnearyou.googleapis.Places;
 
 @Component
 public class LinkedInJobFinderScheduler {
 
-	private static final int SEARCH_COUNT = 2;
+	private static final int SEARCH_COUNT = 5;
 
 	private final String[] skills = { "java", "ruby", "python", "node.js",
 			"mongodb" };

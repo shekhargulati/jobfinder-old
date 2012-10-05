@@ -1,4 +1,4 @@
-package com.jobsnearyou.scheduler;
+package com.jobsnearyou.googleapis;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import com.google.api.client.util.Key;
 public class Places {
 	
 	@Key
-	List<Place> results;
+	public List<Place> results;
 	
 	@Key
-	String status;
+	public String status;
 
 }

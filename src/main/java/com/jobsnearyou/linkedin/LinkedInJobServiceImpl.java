@@ -21,24 +21,28 @@ public class LinkedInJobServiceImpl implements LinkedInJobService {
 	@Override
 	public List<LinkedinJob> findAllLinkedinJobs() {
 		Query query = new Query().limit(10);
+		query.fields().exclude("description").exclude("city").exclude("country").exclude("state").exclude("expirationDate");
 		return mongoTemplate.find(query, LinkedinJob.class);
 	}
 
 	@Override
 	public LinkedinJob findOneLinkedInJob(int linkedInJobId) {
 		Query query = Query.query(Criteria.where("linkedinJobId").is(linkedInJobId));
+		query.fields().exclude("description").exclude("city").exclude("country").exclude("state").exclude("expirationDate");
 		return mongoTemplate.findOne(query, LinkedinJob.class);
 	}
 
 	@Override
 	public List<LinkedinJob> findAllLinkedInJobsNear(double latitude, double longitude) {
 		Query query = Query.query(Criteria.where("location").near(new Point(latitude, longitude))).limit(3);
+		query.fields().exclude("description").exclude("city").exclude("country").exclude("state").exclude("expirationDate");
 		return mongoTemplate.find(query, LinkedinJob.class);
 	}
 
 	@Override
 	public List<LinkedinJob> findAllLinkedInJobsNear(double latitude, double longitude, String skill) {
 		Query query = Query.query(Criteria.where("location").near(new Point(latitude, longitude)).and("skills").regex(skill,"i")).limit(3);
+		query.fields().exclude("description").exclude("city").exclude("country").exclude("state").exclude("expirationDate");
 		return mongoTemplate.find(query, LinkedinJob.class);
 	}
 
