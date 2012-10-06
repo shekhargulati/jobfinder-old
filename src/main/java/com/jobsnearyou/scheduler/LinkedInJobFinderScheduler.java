@@ -29,7 +29,7 @@ public class LinkedInJobFinderScheduler {
 	private static final int SEARCH_COUNT = 5;
 
 	private final String[] skills = { "java", "ruby", "python", "node.js",
-			"mongodb" };
+			"mongodb","cloud","php","hadoop","scala","erlang","clojure" };
 
 	@Inject
 	MongoTemplate mongoTemplate;
