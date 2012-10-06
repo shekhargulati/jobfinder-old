@@ -26,7 +26,7 @@ import com.jobsnearyou.googleapis.Places;
 @Component
 public class LinkedInJobFinderScheduler {
 
-	private static final int SEARCH_COUNT = 5;
+	private static final int SEARCH_COUNT = 10;
 
 	private final String[] skills = { "java", "ruby", "python", "node.js",
 			"mongodb","cloud","php","hadoop","scala","erlang","clojure" };
@@ -109,12 +109,12 @@ public class LinkedInJobFinderScheduler {
 					else if (StringUtils.equals("OVER_QUERY_LIMIT", status)) {
 						System.out
 								.println("The application has exceed Google place Query Limit.Breaking the loop. Will try in next three hours..");
-						break;
+						continue;
 					}
 					else if (StringUtils.equals("REQUEST_DENIED", status)) {
 						System.out
 								.println("Request is denied. Breaking the loop will try again after three hours");
-						break;
+						continue;
 					}
 
 				}

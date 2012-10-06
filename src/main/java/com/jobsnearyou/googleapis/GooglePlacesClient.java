@@ -1,5 +1,7 @@
 package com.jobsnearyou.googleapis;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Component;
 
 import com.google.api.client.googleapis.GoogleHeaders;
@@ -20,7 +22,9 @@ public class GooglePlacesClient {
 	private static final HttpTransport transport = new ApacheHttpTransport();
 
 	private static final String API_KEY = "AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E";
-//	private static final String API_KEY =  "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
+
+	// private static final String API_KEY =
+	// "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8";
 	private static final String PLACES_TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?";
 
 	public Places performTextSearch(String query) {
@@ -29,7 +33,7 @@ public class GooglePlacesClient {
 			HttpRequestFactory httpRequestFactory = createRequestFactory(transport);
 			HttpRequest request = httpRequestFactory
 					.buildGetRequest(new GenericUrl(PLACES_TEXT_SEARCH_URL));
-			request.url.put("key", API_KEY);
+			request.url.put("key", getApiKey());
 			request.url.put("query", query);
 			request.url.put("radius", 500);
 			request.url.put("sensor", "false");
@@ -42,6 +46,12 @@ public class GooglePlacesClient {
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private static String getApiKey() {
+		String[] keys = { "AIzaSyBdy37tvqqbQr_xWgHFOUdhZsXcrT4F4d8", "AIzaSyA4hjzX6JXrP5DKftAkjnpH0gPABlWTi8E", "AIzaSyATvS5bY-3CkeiedEWtr5WFHEQFOi-9uYs" };
+		return keys[new Random().nextInt(3)];
+
 	}
 
 	public static HttpRequestFactory createRequestFactory(
@@ -57,5 +67,11 @@ public class GooglePlacesClient {
 				request.addParser(parser);
 			}
 		});
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(getApiKey());
+		}
 	}
 }
