@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>jobsnearyou</groupId>
 	<artifactId>localjobs</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>jobsnearyou</name>
+	<name>localjobs</name>
 	<properties>
 		<java-version>1.6</java-version>
 		<org.springframework.social-version>1.1.0.BUILD-SNAPSHOT</org.springframework.social-version>
@@ -152,6 +151,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.1.0.Final</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.1</version>
 		</dependency>
 
 		<!-- Logging -->
@@ -383,4 +388,5 @@
 			</build>
 		</profile>
 	</profiles>
+	<groupId>com.openshift</groupId>
 </project>
