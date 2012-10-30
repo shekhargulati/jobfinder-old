@@ -5,7 +5,7 @@
 
 <form id="disconnect" method="post">
 	<div class="formInfo">
-		<p>The Spring Social Showcase sample application is already connected to your LinkedIn account.
+		<p>The LocalJobs application is already connected to your LinkedIn account.
 			Click the button if you wish to disconnect.			
 	</div>
 
