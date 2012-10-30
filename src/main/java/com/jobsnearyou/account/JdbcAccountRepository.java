@@ -29,7 +29,7 @@ public class JdbcAccountRepository implements AccountRepository {
 	public void createAccount(Account user) throws UsernameAlreadyInUseException {
 		try {
 			jdbcTemplate.update(
-					"insert into Account (firstName, lastName, username, password) values (?, ?, ?, ?)",
+					"INSERT INTO Account (firstName, lastName, username, password) VALUES (?, ?, ?, ?)",
 					user.getFirstName(), user.getLastName(), user.getUsername(),
 					passwordEncoder.encode(user.getPassword()));
 		} catch (DuplicateKeyException e) {
@@ -38,7 +38,7 @@ public class JdbcAccountRepository implements AccountRepository {
 	}
 
 	public Account findAccountByUsername(String username) {
-		return jdbcTemplate.queryForObject("select username, firstName, lastName from Account where username = ?",
+		return jdbcTemplate.queryForObject("SELECT username, firstName, lastName from Account where username = ?",
 				new RowMapper<Account>() {
 					public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
 						return new Account(rs.getString("username"), null, rs.getString("firstName"), rs

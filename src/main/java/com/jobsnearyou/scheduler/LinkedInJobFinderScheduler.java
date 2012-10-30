@@ -26,10 +26,12 @@ import com.jobsnearyou.googleapis.Places;
 @Component
 public class LinkedInJobFinderScheduler {
 
-	private static final int SEARCH_COUNT = 10;
+	private static final int SEARCH_COUNT = 20;
 
 	private final String[] skills = { "java", "ruby", "python", "node.js",
-			"mongodb","cloud","php","hadoop","scala","erlang","clojure" };
+			"mongodb", "cloud", "php", "hadoop", "scala", "erlang", "clojure" };
+
+	private final String[] countryCodes = { "de", "in", "us" };
 
 	@Inject
 	MongoTemplate mongoTemplate;
@@ -43,22 +45,28 @@ public class LinkedInJobFinderScheduler {
 
 	int jobCount = 1;
 
-	@Scheduled(fixedDelay = 180L * 60 * 1000)
+	@Scheduled(fixedDelay = 3L * 60 * 1000)
 	public void findJobs() {
 		System.out.println(jobCount + " ..... Running Job ...." + new Date());
 		JobOperations jobOperations = linkedIn.jobOperations();
 		for (String skill : skills) {
-			findAndPersistJobsPerSkill(linkedIn, jobOperations, skill);
+			for (String countryCode : countryCodes) {
+				System.out.println("Finding jobs for country : " + countryCode);
+				findAndPersistJobsPerSkill(linkedIn, jobOperations, skill,
+						countryCode);
+			}
+
 		}
 		System.out.println(jobCount + " ..... Finished Job ...." + new Date());
 		jobCount++;
 	}
 
 	private void findAndPersistJobsPerSkill(LinkedInTemplate linkedIn,
-			JobOperations jobOperations, String skill) {
+			JobOperations jobOperations, String skill, String countryCode) {
 		JobSearchParameters parameters = new JobSearchParameters();
 		parameters.setKeywords(skill);
 		parameters.setCount(SEARCH_COUNT);
+		parameters.setCountryCode(countryCode);
 		Jobs jobs = jobOperations.searchJobs(parameters);
 		List<Job> allJobs = jobs.getJobs();
 		if (allJobs == null) {
@@ -92,8 +100,8 @@ public class LinkedInJobFinderScheduler {
 						linkedinJob
 								.setFormattedAddress(place.formatted_address);
 						linkedinJob.setLocation(new double[] {
-								place.geometry.location.lat,
-								place.geometry.location.lng });
+								place.geometry.location.lng,
+								place.geometry.location.lat });
 					}
 					else if (StringUtils.equals("ZERO_RESULTS", status)) {
 						System.out.println("No result found for ... "
