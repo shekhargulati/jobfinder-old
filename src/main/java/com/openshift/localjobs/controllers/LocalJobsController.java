@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -123,24 +124,21 @@ public class LocalJobsController {
 	
 	
 	@RequestMapping("/jobsforme")
-	public ResponseEntity<String> allJobsForMe() throws Exception {
+	public String allJobsForMe(Model model) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		
 		Account account = accountRepository.findAccountByUsername(SecurityUtils.getCurrentLoggedInUsername());
 		double[] coordinates = coordinateFinder.find(account.getAddress());
 		if (ArrayUtils.isEmpty(coordinates)) {
-			return new ResponseEntity<String>(
-					"Not able to understand the address", headers,
-					HttpStatus.BAD_REQUEST);
+			return "redirect:/linkedin";
 		}
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
 		List<LocalJobWithDistance> localJobsWithDistance = findJobsWithLocation(latitude, longitude);
-		return new ResponseEntity<String>(
-				LocalJobWithDistance.toJsonArray(localJobsWithDistance),
-				headers, HttpStatus.OK);
+		model.addAttribute("jobs", localJobsWithDistance);
+		return "jobs";
 	}
 
 	private List<LocalJobWithDistance> findJobs(String skill, double latitude,
