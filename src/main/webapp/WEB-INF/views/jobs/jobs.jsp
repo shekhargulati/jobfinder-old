@@ -7,10 +7,10 @@
 
 <p>Hello, <c:out value="${profile.firstName}"/>!</p>
 <img src="<c:out value="${profile.profilePictureUrl}"/>"/>
-<<c:forEach items="${jobs}" var="vo"></c:forEach>
+<c:forEach items="${jobs}" var="vo">
 <dl>
 	<dt>Job Id:</dt>
-	<dd>c:out value="${vo.job.id}"/></dd>
+	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
 	<dd><c:out value="${vo.job.jobTitle}"/></dd>
 	<dt>Skills Required:</dt>
@@ -25,6 +25,8 @@
 	<dd><c:out value="${vo.duration.text}"/></dd>
 	
 </dl>
+
+</c:forEach>
 
 <c:url value="/connect/linkedin" var="disconnectUrl"/>
 <form id="disconnect" action="${disconnectUrl}" method="post">
