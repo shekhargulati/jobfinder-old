@@ -43,7 +43,7 @@
 		
 	<servlet-mapping>
 		<servlet-name>localjobs</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- Ensure UTF-8 encoded pages so that certain characters are displayed and submitted correctly -->
