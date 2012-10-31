@@ -10,4 +10,5 @@
 <ul class="menu">
 	<li><a href="<c:url value="/linkedin"/>">User Profile</a></li>
 </ul>
+<h4><a href="<c:url value="/jobsforme"/>">Jobs For Me</a></h4>
 </social:connected>

@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openshift.localjobs.account.Account;
+import com.openshift.localjobs.account.AccountRepository;
 import com.openshift.localjobs.domain.Job;
 import com.openshift.localjobs.googleapis.DistanceResponse;
 import com.openshift.localjobs.googleapis.GoogleDistanceClient;
 import com.openshift.localjobs.service.CoordinateFinder;
 import com.openshift.localjobs.service.LocalJobsService;
+import com.openshift.localjobs.utils.SecurityUtils;
 
 @Controller
 public class LocalJobsController {
@@ -31,6 +34,9 @@ public class LocalJobsController {
 
 	@Inject
 	private CoordinateFinder coordinateFinder;
+	
+	@Inject
+	private AccountRepository accountRepository;
 
 	@RequestMapping("/jobs")
 	public ResponseEntity<String> allJobs() {
@@ -114,11 +120,50 @@ public class LocalJobsController {
 				LocalJobWithDistance.toJsonArray(localJobsWithDistance),
 				headers, HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping("/jobsforme")
+	public ResponseEntity<String> allJobsForMe() throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		
+		Account account = accountRepository.findAccountByUsername(SecurityUtils.getCurrentLoggedInUsername());
+		double[] coordinates = coordinateFinder.find(account.getAddress());
+		if (ArrayUtils.isEmpty(coordinates)) {
+			return new ResponseEntity<String>(
+					"Not able to understand the address", headers,
+					HttpStatus.BAD_REQUEST);
+		}
+
+		double latitude = coordinates[0];
+		double longitude = coordinates[1];
+		List<LocalJobWithDistance> localJobsWithDistance = findJobsWithLocation(latitude, longitude);
+		return new ResponseEntity<String>(
+				LocalJobWithDistance.toJsonArray(localJobsWithDistance),
+				headers, HttpStatus.OK);
+	}
 
 	private List<LocalJobWithDistance> findJobs(String skill, double latitude,
 			double longitude) {
 		List<Job> jobs = localJobsService.findAllLocalJobsNear(latitude,
 				longitude, skill);
+		List<LocalJobWithDistance> locaJobsWithDistance = new ArrayList<LocalJobWithDistance>();
+		for (Job localJob : jobs) {
+			DistanceResponse response = googleDistanceClient.findDirections(
+					localJob.getLocation(),
+					new double[] { latitude, longitude });
+			LocalJobWithDistance linkedinJobWithDistance = new LocalJobWithDistance(
+					localJob, response.rows[0].elements[0].distance,
+					response.rows[0].elements[0].duration);
+			locaJobsWithDistance.add(linkedinJobWithDistance);
+		}
+		return locaJobsWithDistance;
+	}
+	
+	private List<LocalJobWithDistance> findJobsWithLocation(double latitude,
+			double longitude) {
+		List<Job> jobs = localJobsService.findAllLocalJobsNear(latitude,
+				longitude);
 		List<LocalJobWithDistance> locaJobsWithDistance = new ArrayList<LocalJobWithDistance>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
