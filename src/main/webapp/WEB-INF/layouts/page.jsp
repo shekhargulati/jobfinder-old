@@ -11,7 +11,7 @@
 	</head>
 	<body>
 		<div id="header">
-			<h1><a href="<c:url value="/"/>">Find Jobs Near You</a></h1>
+			<h1><a href="<c:url value="/linkedin"/>">Find Jobs Near You</a></h1>
 		</div>
 		
 		<div id="leftNav">
