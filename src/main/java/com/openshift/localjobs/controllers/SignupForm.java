@@ -11,6 +11,8 @@ public class SignupForm {
 	private String firstName;
 
 	private String lastName;
+	
+	private String address;
 
 	public String getUsername() {
 		return username;
@@ -42,6 +44,14 @@ public class SignupForm {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getAddress() {
+		return address;
 	}
 
 	public static SignupForm fromProviderUser(UserProfile providerUser) {

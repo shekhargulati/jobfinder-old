@@ -30,6 +30,8 @@
 		<form:input path="username" />		
 		<form:label path="password">Password (at least 6 characters) <form:errors path="password" cssClass="error" /></form:label>
 		<form:password path="password" />
+		<form:label path="address">Address <form:errors path="address" cssClass="error" /></form:label>
+		<form:textarea rows="5" path="address" />
 	</fieldset>
 	<p><button type="submit">Sign Up</button></p>
 </form:form>
