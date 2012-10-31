@@ -117,3 +117,6 @@ div.accountConnection h4 {
 div.accountConnection h4 img {
 	vertical-align: middle;
 }
+.boxed {
+  border: 1px solid blue ;
+}

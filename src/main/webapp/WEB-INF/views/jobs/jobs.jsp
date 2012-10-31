@@ -5,10 +5,8 @@
 
 <h3>We have found following Jobs for you..</h3>
 
-<p>Hello, <c:out value="${profile.firstName}"/>!</p>
-<img src="<c:out value="${profile.profilePictureUrl}"/>"/>
 <c:forEach items="${jobs}" var="vo">
-<dl>
+<dl class="boxed">
 	<dt>Job Id:</dt>
 	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
