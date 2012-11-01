@@ -11,6 +11,8 @@
 	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
 	<dd><c:out value="${vo.job.jobTitle}"/></dd>
+	<dt>Company:</dt>
+	<dd><c:out value="${vo.job.company.companyName}"/></dd>
 	<dt>Skills Required:</dt>
 	<c:forEach items="${vo.job.skills}" var="skill">
 		<dd><c:out value="${skill}"/></dd>
