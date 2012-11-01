@@ -6,13 +6,16 @@
 <h3>We have found following Jobs for you..</h3>
 
 <c:forEach items="${jobs}" var="vo">
-<dl style="boxed">
+<dl style="border: 1px solid blue;">
 	<dt>Job Id:</dt>
 	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
 	<dd><c:out value="${vo.job.jobTitle}"/></dd>
 	<dt>Skills Required:</dt>
-	<dd><c:out value="${vo.job.skills}"/></dd>
+	<c:forEach items="${vo.job.skills}" var="skill">
+		<dd><c:out value="${skill}"/></dd>
+	</c:forEach>
+	
 	<dt>Job Location:</dt>
 	<dd><c:out value="${vo.job.formattedAddress}"/></dd>
 	

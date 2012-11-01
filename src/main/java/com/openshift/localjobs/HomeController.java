@@ -1,4 +1,4 @@
-package com.openshift.localjobs.controllers;
+package com.openshift.localjobs;
 
 import java.security.Principal;
 
@@ -9,29 +9,34 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.openshift.localjobs.account.AccountRepository;
 
 @Controller
 public class HomeController {
-	
+
 	private final Provider<ConnectionRepository> connectionRepositoryProvider;
-	
+
 	private final AccountRepository accountRepository;
 
 	@Inject
-	public HomeController(Provider<ConnectionRepository> connectionRepositoryProvider, AccountRepository accountRepository) {
+	public HomeController(
+			Provider<ConnectionRepository> connectionRepositoryProvider,
+			AccountRepository accountRepository) {
 		this.connectionRepositoryProvider = connectionRepositoryProvider;
 		this.accountRepository = accountRepository;
 	}
 
-	@RequestMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Principal currentUser, Model model) {
-		model.addAttribute("connectionsToProviders", getConnectionRepository().findAllConnections());
-		model.addAttribute(accountRepository.findAccountByUsername(currentUser.getName()));
+		model.addAttribute("connectionsToProviders", getConnectionRepository()
+				.findAllConnections());
+		model.addAttribute(accountRepository.findAccountByUsername(currentUser
+				.getName()));
 		return "home";
 	}
-	
+
 	private ConnectionRepository getConnectionRepository() {
 		return connectionRepositoryProvider.get();
 	}
