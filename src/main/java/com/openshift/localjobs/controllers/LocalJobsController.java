@@ -60,9 +60,9 @@ public class LocalJobsController {
 	}
 
 	@RequestMapping("/jobs/near")
-	public ResponseEntity<String> allJobsNearToLatitudeAndLongitude(
+	public String allJobsNearToLatitudeAndLongitude(
 			@RequestParam("latitude") double latitude,
-			@RequestParam("longitude") double longitude) {
+			@RequestParam("longitude") double longitude,Model model) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
@@ -80,46 +80,41 @@ public class LocalJobsController {
 			localJobsWithDistance.add(linkedinJobWithDistance);
 		}
 
-		return new ResponseEntity<String>(
-				LocalJobWithDistance.toJsonArray(localJobsWithDistance),
-				headers, HttpStatus.OK);
+		model.addAttribute("jobs", localJobsWithDistance);
+		return "jobs";
 	}
 
 	@RequestMapping("/jobs/near/{skill}")
-	public ResponseEntity<String> allJobsNearLatitideAndLongitudeWithSkill(
+	public String allJobsNearLatitideAndLongitudeWithSkill(
 			@PathVariable("skill") String skill,
 			@RequestParam("latitude") double latitude,
-			@RequestParam("longitude") double longitude) {
+			@RequestParam("longitude") double longitude,Model model) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<LocalJobWithDistance> locaJobsWithDistance = findJobs(skill,
+		List<LocalJobWithDistance> localJobsWithDistance = findJobs(skill,
 				latitude, longitude);
-		return new ResponseEntity<String>(
-				LocalJobWithDistance.toJsonArray(locaJobsWithDistance),
-				headers, HttpStatus.OK);
+		model.addAttribute("jobs", localJobsWithDistance);
+		return "jobs";
 	}
 
 	@RequestMapping("/jobs/near/{location}/{skill}")
-	public ResponseEntity<String> allJobsNearToLocationWithSkill(
+	public String allJobsNearToLocationWithSkill(
 			@PathVariable("location") String location,
-			@PathVariable("skill") String skill) throws Exception {
+			@PathVariable("skill") String skill,Model model) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		double[] coordinates = coordinateFinder.find(location);
 		if (ArrayUtils.isEmpty(coordinates)) {
-			return new ResponseEntity<String>(
-					"Not able to understand the address", headers,
-					HttpStatus.BAD_REQUEST);
+			return "redirect:/linkedin";
 		}
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
 		List<LocalJobWithDistance> localJobsWithDistance = findJobs(skill,
 				latitude, longitude);
-		return new ResponseEntity<String>(
-				LocalJobWithDistance.toJsonArray(localJobsWithDistance),
-				headers, HttpStatus.OK);
+		model.addAttribute("jobs", localJobsWithDistance);
+		return "jobs";
 	}
 	
 	
