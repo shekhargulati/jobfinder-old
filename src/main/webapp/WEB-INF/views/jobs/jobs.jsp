@@ -6,7 +6,7 @@
 <h3>We have found following Jobs for you..</h3>
 
 <c:forEach items="${jobs}" var="vo">
-<dl>
+<dl style="boxed">
 	<dt>Job Id:</dt>
 	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
