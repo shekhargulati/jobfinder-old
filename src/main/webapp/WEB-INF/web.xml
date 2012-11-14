@@ -12,7 +12,7 @@
 	<!-- Location of Java @Configuration classes that configure the components that makeup this application -->
 	<context-param>
     	<param-name>contextConfigLocation</param-name>
-    	<param-value>com.openshift.localjobs.config</param-value>
+    	<param-value>com.openshift.jobfinder.config</param-value>
 	</context-param>
 	
 	<!-- Use the simplified configuration by default. -->
