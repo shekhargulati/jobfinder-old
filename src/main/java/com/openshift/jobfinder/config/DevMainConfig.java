@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.mongodb.Mongo;
 
 @Configuration
-@ComponentScan(basePackages = "com.openshift.localjobs", excludeFilters = { @Filter(Configuration.class) })
+@ComponentScan(basePackages = "com.openshift.jobfinder", excludeFilters = { @Filter(Configuration.class) })
 @PropertySource("classpath:com/openshift/jobfinder/config/application.properties")
 @EnableTransactionManagement
 @Profile("dev")

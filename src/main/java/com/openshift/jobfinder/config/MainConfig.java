@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.mongodb.Mongo;
 
 @Configuration
-@ComponentScan(basePackages = "com.openshift.localjobs", excludeFilters = { @Filter(Configuration.class) })
+@ComponentScan(basePackages = "com.openshift.jobfinder", excludeFilters = { @Filter(Configuration.class) })
 @PropertySource("classpath:com/openshift/jobfinder/config/application.properties")
 @EnableTransactionManagement
 @Profile("openshift")
@@ -116,14 +116,21 @@ public class MainConfig {
 	
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
-		String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-		int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-		String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-		String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
-		Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
-		UserCredentials userCredentials = new UserCredentials(username,password);
-		String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
+		Mongo mongo = new Mongo("localhost",27017);
+		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, "jobfinder");
 		return mongoDbFactory;
 	}
+	
+//	@Bean
+//	public MongoDbFactory mongoDbFactory() throws Exception {
+//		String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
+//		int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
+//		String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
+//		String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
+//		Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
+//		UserCredentials userCredentials = new UserCredentials(username,password);
+//		String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+//		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
+//		return mongoDbFactory;
+//	}
 }
