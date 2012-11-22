@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.openshift.jobfinder.domain.Job;
 
-public interface LocalJobsService {
+public interface JobFinderService {
 	List<Job> findAllLocalJobs();
 
 	Job findOneLocalJob(String jobId);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.openshift.jobfinder.domain.Job;
 
 @Service
-public class LocalJobsServiceImpl implements LocalJobsService {
+public class JobFinderServiceImpl implements JobFinderService {
 
 	@Inject
 	private MongoTemplate mongoTemplate;

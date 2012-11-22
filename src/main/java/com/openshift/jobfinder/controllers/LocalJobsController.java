@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.openshift.jobfinder.account.Account;
 import com.openshift.jobfinder.account.AccountRepository;
+import com.openshift.jobfinder.domain.Account;
 import com.openshift.jobfinder.domain.Job;
 import com.openshift.jobfinder.googleapis.DistanceResponse;
 import com.openshift.jobfinder.googleapis.GoogleDistanceClient;
 import com.openshift.jobfinder.service.CoordinateFinder;
-import com.openshift.jobfinder.service.LocalJobsService;
+import com.openshift.jobfinder.service.JobFinderService;
 import com.openshift.jobfinder.utils.SecurityUtils;
 
 @Controller
 public class LocalJobsController {
 
 	@Inject
-	private LocalJobsService localJobsService;
+	private JobFinderService localJobsService;
 
 	@Inject
 	private GoogleDistanceClient googleDistanceClient;

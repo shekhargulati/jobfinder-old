@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.openshift.jobfinder.domain.Account;
+
 @Repository
 public class JdbcAccountRepository implements AccountRepository {
 
@@ -38,10 +40,10 @@ public class JdbcAccountRepository implements AccountRepository {
 	}
 
 	public Account findAccountByUsername(String username) {
-		return jdbcTemplate.queryForObject("SELECT username, firstName, lastName, address from Account where username = ?",
+		return jdbcTemplate.queryForObject("SELECT username, password,firstName, lastName, address from Account where username = ?",
 				new RowMapper<Account>() {
 					public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-						return new Account(rs.getString("username"), null, rs.getString("firstName"), rs
+						return new Account(rs.getString("username"), rs.getString("password"), rs.getString("firstName"), rs
 								.getString("lastName"),rs.getString("address"));
 					}
 				}, username);
