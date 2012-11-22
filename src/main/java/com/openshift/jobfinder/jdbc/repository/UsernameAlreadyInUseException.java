@@ -1,4 +1,4 @@
-package com.openshift.jobfinder.account;
+package com.openshift.jobfinder.jdbc.repository;
 
 public class UsernameAlreadyInUseException extends Exception {
 	public UsernameAlreadyInUseException(String username) {

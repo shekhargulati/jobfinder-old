@@ -11,12 +11,16 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.openshift.jobfinder.domain.Job;
+import com.openshift.jobfinder.mongodb.repository.JobRepository;
 
 @Service
 public class JobFinderServiceImpl implements JobFinderService {
 
 	private MongoTemplate mongoTemplate;
 
+	@Inject
+	private JobRepository jobRepository;
+	
 	@Inject
 	public JobFinderServiceImpl(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
@@ -51,4 +55,20 @@ public class JobFinderServiceImpl implements JobFinderService {
 		return mongoTemplate.find(query, Job.class);
 	}
 
+	@Override
+	public Job saveJob(Job job){
+		jobRepository.save(job);
+		return job;
+	}
+	@Override
+	public long totalNumberOfJob(){
+		return jobRepository.count();
+	}
+	
+	@Override
+	public void deleteJob(Job job){
+		jobRepository.delete(job);
+	}
+	
+	
 }

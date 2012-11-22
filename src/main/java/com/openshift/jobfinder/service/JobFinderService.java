@@ -12,4 +12,10 @@ public interface JobFinderService {
 	List<Job> findAllJobsNear(double latitude, double longitude);
 
 	List<Job> findAllJobsNearWithSkill(double latitude, double longitude,String skill);
+
+	public abstract void deleteJob(Job job);
+
+	public abstract long totalNumberOfJob();
+
+	public abstract Job saveJob(Job job);
 }

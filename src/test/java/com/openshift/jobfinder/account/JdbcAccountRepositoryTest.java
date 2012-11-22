@@ -14,6 +14,7 @@ import com.openshift.jobfinder.config.DevMainConfig;
 import com.openshift.jobfinder.config.SecurityConfig;
 import com.openshift.jobfinder.config.SocialConfig;
 import com.openshift.jobfinder.domain.Account;
+import com.openshift.jobfinder.jdbc.repository.AccountRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DevMainConfig.class,SecurityConfig.class, SocialConfig.class})

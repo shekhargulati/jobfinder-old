@@ -15,6 +15,7 @@ import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -28,10 +29,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.mongodb.Mongo;
+import com.openshift.jobfinder.mongodb.repository.JobRepository;
 
 @Configuration
 @ComponentScan(basePackages = "com.openshift.jobfinder", excludeFilters = { @Filter(Configuration.class) })
 @PropertySource("classpath:application.properties")
+@EnableMongoRepositories(basePackageClasses = JobRepository.class)
 @EnableTransactionManagement
 @Profile("openshift")
 public class OpenShiftMainConfig {

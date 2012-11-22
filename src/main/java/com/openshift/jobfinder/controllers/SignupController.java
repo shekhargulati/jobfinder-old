@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
-import com.openshift.jobfinder.account.AccountRepository;
-import com.openshift.jobfinder.account.UsernameAlreadyInUseException;
 import com.openshift.jobfinder.domain.Account;
+import com.openshift.jobfinder.jdbc.repository.AccountRepository;
+import com.openshift.jobfinder.jdbc.repository.UsernameAlreadyInUseException;
 
 @Controller
 public class SignupController {

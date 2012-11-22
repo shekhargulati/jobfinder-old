@@ -1,4 +1,4 @@
-package com.openshift.jobfinder.account;
+package com.openshift.jobfinder.jdbc.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

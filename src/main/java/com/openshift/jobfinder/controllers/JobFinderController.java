@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.openshift.jobfinder.account.AccountRepository;
 import com.openshift.jobfinder.domain.Account;
 import com.openshift.jobfinder.domain.Job;
 import com.openshift.jobfinder.googleapis.DistanceResponse;
 import com.openshift.jobfinder.googleapis.GoogleDistanceClient;
+import com.openshift.jobfinder.jdbc.repository.AccountRepository;
 import com.openshift.jobfinder.service.CoordinateFinder;
 import com.openshift.jobfinder.service.JobFinderService;
 import com.openshift.jobfinder.utils.SecurityUtils;
@@ -28,7 +28,7 @@ import com.openshift.jobfinder.utils.SecurityUtils;
 public class JobFinderController {
 
 	@Inject
-	private JobFinderService localJobsService;
+	private JobFinderService jobFinderService;
 
 	@Inject
 	private GoogleDistanceClient googleDistanceClient;
@@ -43,14 +43,14 @@ public class JobFinderController {
 	public ResponseEntity<String> allJobs() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<Job> jobs = localJobsService.findAllJobs();
+		List<Job> jobs = jobFinderService.findAllJobs();
 		return new ResponseEntity<String>(Job.toJsonArray(jobs), headers,
 				HttpStatus.OK);
 	}
 
 	@RequestMapping("/jobs/{jobId}")
 	public ResponseEntity<String> oneJob(@PathVariable("jobId") String jobId) {
-		Job job = localJobsService.findOneJob(jobId);
+		Job job = jobFinderService.findOneJob(jobId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		if (job == null) {
@@ -67,7 +67,7 @@ public class JobFinderController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 
-		List<Job> jobs = localJobsService.findAllJobsNear(latitude,
+		List<Job> jobs = jobFinderService.findAllJobsNear(latitude,
 				longitude);
 		List<JobDistanceVo> localJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
@@ -138,7 +138,7 @@ public class JobFinderController {
 
 	private List<JobDistanceVo> findJobs(String skill, double latitude,
 			double longitude) {
-		List<Job> jobs = localJobsService.findAllJobsNearWithSkill(latitude,
+		List<Job> jobs = jobFinderService.findAllJobsNearWithSkill(latitude,
 				longitude, skill);
 		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
@@ -155,7 +155,7 @@ public class JobFinderController {
 	
 	private List<JobDistanceVo> findJobsWithLocation(double latitude,
 			double longitude) {
-		List<Job> jobs = localJobsService.findAllJobsNear(latitude,
+		List<Job> jobs = jobFinderService.findAllJobsNear(latitude,
 				longitude);
 		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {

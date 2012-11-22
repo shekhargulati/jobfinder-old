@@ -1,4 +1,4 @@
-package com.openshift.jobfinder.account;
+package com.openshift.jobfinder.jdbc.repository;
 
 import com.openshift.jobfinder.domain.Account;
 
