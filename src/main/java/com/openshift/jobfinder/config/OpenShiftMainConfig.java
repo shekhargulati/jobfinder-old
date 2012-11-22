@@ -31,17 +31,16 @@ import com.mongodb.Mongo;
 
 @Configuration
 @ComponentScan(basePackages = "com.openshift.jobfinder", excludeFilters = { @Filter(Configuration.class) })
-@PropertySource("classpath:com/openshift/jobfinder/config/application.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @Profile("openshift")
-public class MainConfig {
+public class OpenShiftMainConfig {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSource());
-		entityManagerFactory.setPersistenceUnitName("postgresql");
-		entityManagerFactory.setPersistenceXmlLocation("classpath:com/openshift/jobfinder/config/jpa-persistence.xml");
+		entityManagerFactory.setPersistenceUnitName("jobfinder-postgresql");
 		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
 		hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
 		hibernateJpaVendorAdapter.setGenerateDdl(true);
@@ -89,8 +88,6 @@ public class MainConfig {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 	
-	// internal helpers
-	
 	@Bean
 	public DataSourceInitializer dataSourceInitializer(){
 		DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
@@ -102,27 +99,20 @@ public class MainConfig {
 
 	private DatabasePopulator databasePopulator() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.addScript(new ClassPathResource("drop-tables.sql",MainConfig.class));
-		populator.addScript(new ClassPathResource("create-tables.sql", MainConfig.class));
+		populator.addScript(new ClassPathResource("drop-tables.sql",OpenShiftMainConfig.class));
+		populator.addScript(new ClassPathResource("create-tables.sql", OpenShiftMainConfig.class));
 		populator.addScript(new ClassPathResource("JdbcUsersConnectionRepository.sql", JdbcUsersConnectionRepository.class));
 		return populator;
 	}
 	
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
-		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+		MongoTemplate mongoTemplate = new MongoTemplate(openshiftMongoDBFactoryConfig());
 		return mongoTemplate;
 	}
 	
-//	@Bean
-//	public MongoDbFactory mongoDbFactory() throws Exception {
-//		Mongo mongo = new Mongo("localhost",27017);
-//		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, "jobfinder");
-//		return mongoDbFactory;
-//	}
-	
 	@Bean
-	public MongoDbFactory mongoDbFactory() throws Exception {
+	public MongoDbFactory openshiftMongoDBFactoryConfig() throws Exception {
 		String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
 		int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
 		String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");

@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@ImportResource("classpath:com/openshift/jobfinder/config/security.xml")
+@ImportResource("classpath:security.xml")
 public class SecurityConfig {
 
 	@Bean

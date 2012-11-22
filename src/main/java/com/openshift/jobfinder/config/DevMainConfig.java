@@ -28,7 +28,7 @@ import com.mongodb.Mongo;
 
 @Configuration
 @ComponentScan(basePackages = "com.openshift.jobfinder", excludeFilters = { @Filter(Configuration.class) })
-@PropertySource("classpath:com/openshift/jobfinder/config/application.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @Profile("dev")
 public class DevMainConfig {
@@ -36,7 +36,7 @@ public class DevMainConfig {
 	@Bean(destroyMethod = "shutdown")
 	public DataSource dataSource() {
 		EmbeddedDatabaseFactory factory = new EmbeddedDatabaseFactory();
-		factory.setDatabaseName("localjobs");
+		factory.setDatabaseName("jobfinder");
 		factory.setDatabaseType(EmbeddedDatabaseType.H2);
 		factory.setDatabasePopulator(databasePopulator());
 		return factory.getDatabase();
@@ -70,8 +70,8 @@ public class DevMainConfig {
 
 	private DatabasePopulator databasePopulator() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.addScript(new ClassPathResource("drop-tables.sql",DevMainConfig.class));
-		populator.addScript(new ClassPathResource("create-tables.sql", DevMainConfig.class));
+		populator.addScript(new ClassPathResource("drop-tables.sql"));
+		populator.addScript(new ClassPathResource("create-tables.sql"));
 		populator.addScript(new ClassPathResource("JdbcUsersConnectionRepository.sql", JdbcUsersConnectionRepository.class));
 		return populator;
 	}
@@ -85,7 +85,7 @@ public class DevMainConfig {
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
 		Mongo mongo = new Mongo("localhost", 27017);
-		String databaseName = "jobsnearyou";
+		String databaseName = "jobfinder";
 		MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo,
 				databaseName);
 		return mongoDbFactory;
