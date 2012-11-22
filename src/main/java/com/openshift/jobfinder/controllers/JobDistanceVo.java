@@ -11,7 +11,7 @@ import com.openshift.jobfinder.googleapis.Duration;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
-public class LocalJobWithDistance {
+public class JobDistanceVo {
 
 	private Job job;
 
@@ -19,11 +19,11 @@ public class LocalJobWithDistance {
 
 	private Duration duration;
 
-	public LocalJobWithDistance() {
+	public JobDistanceVo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LocalJobWithDistance(Job job, Distance distance, Duration duration) {
+	public JobDistanceVo(Job job, Distance distance, Duration duration) {
 		this.job = job;
 		this.distance = distance;
 		this.duration = duration;
@@ -58,20 +58,20 @@ public class LocalJobWithDistance {
 				.include("duration").exclude("*.class").serialize(this);
 	}
 
-	public static LocalJobWithDistance fromJson(String json) {
-		return new JSONDeserializer<LocalJobWithDistance>()
-				.use(null, LocalJobWithDistance.class).use("job", Job.class)
+	public static JobDistanceVo fromJson(String json) {
+		return new JSONDeserializer<JobDistanceVo>()
+				.use(null, JobDistanceVo.class).use("job", Job.class)
 				.use("distance", Distance.class)
 				.use("duration", Duration.class).deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<LocalJobWithDistance> collection) {
+	public static String toJsonArray(Collection<JobDistanceVo> collection) {
 		return new JSONSerializer().include("job").include("distance")
 				.include("duration").exclude("*.class").serialize(collection);
 	}
 
-	public static Collection<LocalJobWithDistance> fromJsonArray(String json) {
-		return new JSONDeserializer<List<LocalJobWithDistance>>()
+	public static Collection<JobDistanceVo> fromJsonArray(String json) {
+		return new JSONDeserializer<List<JobDistanceVo>>()
 				.use(null, ArrayList.class).use("job", Job.class)
 				.use("distance", Distance.class)
 				.use("duration", Duration.class).deserialize(json);

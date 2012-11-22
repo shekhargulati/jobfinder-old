@@ -5,12 +5,11 @@ import java.util.List;
 import com.openshift.jobfinder.domain.Job;
 
 public interface JobFinderService {
-	List<Job> findAllLocalJobs();
+	List<Job> findAllJobs();
 
-	Job findOneLocalJob(String jobId);
+	Job findOneJob(String jobId);
 
-	List<Job> findAllLocalJobsNear(double latitude, double longitude);
+	List<Job> findAllJobsNear(double latitude, double longitude);
 
-	List<Job> findAllLocalJobsNear(double latitude, double longitude,
-			String name);
+	List<Job> findAllJobsNearWithSkill(double latitude, double longitude,String skill);
 }

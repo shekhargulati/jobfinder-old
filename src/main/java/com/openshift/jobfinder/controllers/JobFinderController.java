@@ -25,7 +25,7 @@ import com.openshift.jobfinder.service.JobFinderService;
 import com.openshift.jobfinder.utils.SecurityUtils;
 
 @Controller
-public class LocalJobsController {
+public class JobFinderController {
 
 	@Inject
 	private JobFinderService localJobsService;
@@ -43,14 +43,14 @@ public class LocalJobsController {
 	public ResponseEntity<String> allJobs() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<Job> jobs = localJobsService.findAllLocalJobs();
+		List<Job> jobs = localJobsService.findAllJobs();
 		return new ResponseEntity<String>(Job.toJsonArray(jobs), headers,
 				HttpStatus.OK);
 	}
 
 	@RequestMapping("/jobs/{jobId}")
 	public ResponseEntity<String> oneJob(@PathVariable("jobId") String jobId) {
-		Job job = localJobsService.findOneLocalJob(jobId);
+		Job job = localJobsService.findOneJob(jobId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		if (job == null) {
@@ -67,14 +67,14 @@ public class LocalJobsController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 
-		List<Job> jobs = localJobsService.findAllLocalJobsNear(latitude,
+		List<Job> jobs = localJobsService.findAllJobsNear(latitude,
 				longitude);
-		List<LocalJobWithDistance> localJobsWithDistance = new ArrayList<LocalJobWithDistance>();
+		List<JobDistanceVo> localJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
 					localJob.getLocation(),
 					new double[] { latitude, longitude });
-			LocalJobWithDistance linkedinJobWithDistance = new LocalJobWithDistance(
+			JobDistanceVo linkedinJobWithDistance = new JobDistanceVo(
 					localJob, response.rows[0].elements[0].distance,
 					response.rows[0].elements[0].duration);
 			localJobsWithDistance.add(linkedinJobWithDistance);
@@ -92,7 +92,7 @@ public class LocalJobsController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<LocalJobWithDistance> localJobsWithDistance = findJobs(skill,
+		List<JobDistanceVo> localJobsWithDistance = findJobs(skill,
 				latitude, longitude);
 		model.addAttribute("jobs", localJobsWithDistance);
 		return "jobs";
@@ -111,7 +111,7 @@ public class LocalJobsController {
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<LocalJobWithDistance> localJobsWithDistance = findJobs(skill,
+		List<JobDistanceVo> localJobsWithDistance = findJobs(skill,
 				latitude, longitude);
 		model.addAttribute("jobs", localJobsWithDistance);
 		return "jobs";
@@ -131,21 +131,21 @@ public class LocalJobsController {
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<LocalJobWithDistance> localJobsWithDistance = findJobsWithLocation(latitude, longitude);
+		List<JobDistanceVo> localJobsWithDistance = findJobsWithLocation(latitude, longitude);
 		model.addAttribute("jobs", localJobsWithDistance);
 		return "jobs";
 	}
 
-	private List<LocalJobWithDistance> findJobs(String skill, double latitude,
+	private List<JobDistanceVo> findJobs(String skill, double latitude,
 			double longitude) {
-		List<Job> jobs = localJobsService.findAllLocalJobsNear(latitude,
+		List<Job> jobs = localJobsService.findAllJobsNearWithSkill(latitude,
 				longitude, skill);
-		List<LocalJobWithDistance> locaJobsWithDistance = new ArrayList<LocalJobWithDistance>();
+		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
 					localJob.getLocation(),
 					new double[] { latitude, longitude });
-			LocalJobWithDistance linkedinJobWithDistance = new LocalJobWithDistance(
+			JobDistanceVo linkedinJobWithDistance = new JobDistanceVo(
 					localJob, response.rows[0].elements[0].distance,
 					response.rows[0].elements[0].duration);
 			locaJobsWithDistance.add(linkedinJobWithDistance);
@@ -153,16 +153,16 @@ public class LocalJobsController {
 		return locaJobsWithDistance;
 	}
 	
-	private List<LocalJobWithDistance> findJobsWithLocation(double latitude,
+	private List<JobDistanceVo> findJobsWithLocation(double latitude,
 			double longitude) {
-		List<Job> jobs = localJobsService.findAllLocalJobsNear(latitude,
+		List<Job> jobs = localJobsService.findAllJobsNear(latitude,
 				longitude);
-		List<LocalJobWithDistance> locaJobsWithDistance = new ArrayList<LocalJobWithDistance>();
+		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
 					localJob.getLocation(),
 					new double[] { latitude, longitude });
-			LocalJobWithDistance linkedinJobWithDistance = new LocalJobWithDistance(
+			JobDistanceVo linkedinJobWithDistance = new JobDistanceVo(
 					localJob, response.rows[0].elements[0].distance,
 					response.rows[0].elements[0].duration);
 			locaJobsWithDistance.add(linkedinJobWithDistance);

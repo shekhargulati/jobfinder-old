@@ -1,7 +1,6 @@
 package com.openshift.jobfinder.account;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import javax.inject.Inject;
 
@@ -31,11 +30,6 @@ public class JdbcAccountRepositoryTest {
 		
 		Account persistedAccount = accountRepository.findAccountByUsername("test");
 		assertEquals(account, persistedAccount);
-	}
-
-	@Test
-	public void testFindAccountByUsername() {
-		fail("Not yet implemented");
 	}
 
 }

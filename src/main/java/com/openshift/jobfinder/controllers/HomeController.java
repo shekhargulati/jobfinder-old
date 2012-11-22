@@ -1,4 +1,4 @@
-package com.openshift.jobfinder;
+package com.openshift.jobfinder.controllers;
 
 import java.security.Principal;
 
