@@ -85,7 +85,8 @@ public class JobFinderController {
 	}
 
 	@RequestMapping("/jobs/near")
-	public String allJobsNearToLatitudeAndLongitude(
+	@ResponseBody
+	public List<JobDistanceVo> allJobsNearToLatitudeAndLongitude(
 			@RequestParam("latitude") double latitude,
 			@RequestParam("longitude") double longitude, Model model) {
 
@@ -93,7 +94,7 @@ public class JobFinderController {
 		headers.add("Content-Type", "application/json; charset=utf-8");
 
 		List<Job> jobs = jobFinderService.findAllJobsNear(latitude, longitude);
-		List<JobDistanceVo> localJobsWithDistance = new ArrayList<JobDistanceVo>();
+		List<JobDistanceVo> jobsVO = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
 					localJob.getLocation(),
@@ -101,25 +102,24 @@ public class JobFinderController {
 			JobDistanceVo linkedinJobWithDistance = new JobDistanceVo(localJob,
 					response.rows[0].elements[0].distance,
 					response.rows[0].elements[0].duration);
-			localJobsWithDistance.add(linkedinJobWithDistance);
+			jobsVO.add(linkedinJobWithDistance);
 		}
 
-		model.addAttribute("jobs", localJobsWithDistance);
-		return "jobs";
+		return jobsVO;
 	}
 
 	@RequestMapping("/jobs/near/{skill}")
-	public String allJobsNearLatitideAndLongitudeWithSkill(
+	@ResponseBody
+	public List<JobDistanceVo> allJobsNearLatitideAndLongitudeWithSkill(
 			@PathVariable("skill") String skill,
 			@RequestParam("latitude") double latitude,
 			@RequestParam("longitude") double longitude, Model model) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<JobDistanceVo> localJobsWithDistance = findJobs(skill, latitude,
+		List<JobDistanceVo> jobs = findJobs(skill, latitude,
 				longitude);
-		model.addAttribute("jobs", localJobsWithDistance);
-		return "jobs";
+		return jobs;
 	}
 
 	@RequestMapping("/jobs/near/{location}/{skill}")

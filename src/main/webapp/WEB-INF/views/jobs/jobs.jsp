@@ -7,25 +7,23 @@
 
 <c:forEach items="${jobs}" var="vo">
 <dl style="border: 1px solid blue;">
-	<dt>Job Id:</dt>
-	<dd><c:out value="${vo.job.id}"></c:out></dd>
 	<dt>Job Title:</dt>
-	<dd><c:out value="${vo.job.jobTitle}"/></dd>
+	<dd><c:out value="${jobTitle}"/></dd>
 	<dt>Company:</dt>
-	<dd><c:out value="${vo.job.company.companyName}"/></dd>
+	<dd><c:out value="${companyName}"/></dd>
 	<dt>Skills Required:</dt>
-	<c:forEach items="${vo.job.skills}" var="skill">
+	<c:forEach items="${skills}" var="skill">
 		<dd><c:out value="${skill}"/></dd>
 	</c:forEach>
 	
 	<dt>Job Location:</dt>
-	<dd><c:out value="${vo.job.formattedAddress}"/></dd>
+	<dd><c:out value="${address}"/></dd>
 	
 	<dt>Distance:</dt>
-	<dd><c:out value="${vo.distance.text}"/></dd>
+	<dd><c:out value="${distance}"/></dd>
 	
 	<dt>Time to reach by road:</dt>
-	<dd><c:out value="${vo.duration.text}"/></dd>
+	<dd><c:out value="${duration}"/></dd>
 	
 </dl>
 

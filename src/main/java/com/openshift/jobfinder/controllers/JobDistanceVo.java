@@ -14,6 +14,7 @@ import flexjson.JSONSerializer;
 public class JobDistanceVo {
 
 	private String jobTitle;
+	private String companyName;
 	private String[] skills;
 	private String address;
 	
@@ -27,13 +28,16 @@ public class JobDistanceVo {
 	public JobDistanceVo(Job job, Distance distance, Duration duration) {
 		this.jobTitle = job.getJobTitle();
 		this.skills = job.getSkills();
+		this.companyName = job.getCompany().getCompanyName();
 		this.address = job.getFormattedAddress();
 		this.distance = distance.getText();
 		this.duration = duration.getText();
 	}
 
 	
-	
+	public String getCompanyName() {
+		return companyName;
+	}
 
 	public String getJobTitle() {
 		return jobTitle;

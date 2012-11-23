@@ -102,8 +102,8 @@ public class OpenShiftMainConfig {
 
 	private DatabasePopulator databasePopulator() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.addScript(new ClassPathResource("drop-tables.sql",OpenShiftMainConfig.class));
-		populator.addScript(new ClassPathResource("create-tables.sql", OpenShiftMainConfig.class));
+		populator.addScript(new ClassPathResource("drop-tables.sql"));
+		populator.addScript(new ClassPathResource("create-tables.sql"));
 		populator.addScript(new ClassPathResource("JdbcUsersConnectionRepository.sql", JdbcUsersConnectionRepository.class));
 		return populator;
 	}
