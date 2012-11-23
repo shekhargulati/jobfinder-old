@@ -3,8 +3,8 @@
 
 <tiles-definitions>
 
-	<definition name="linkedin/profile" extends="page">
-		<put-attribute name="content" value="/WEB-INF/views/linkedin/profile.jsp" />
+	<definition name="search" extends="page">
+		<put-attribute name="content" value="/WEB-INF/views/search/search.jsp" />
 	</definition>
 
 </tiles-definitions>

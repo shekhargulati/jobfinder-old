@@ -33,6 +33,6 @@
 
 <c:url value="/connect/linkedin" var="disconnectUrl"/>
 <form id="disconnect" action="${disconnectUrl}" method="post">
-	<button type="submit">Disconnect from LinkedIn</button>	
+	<button class="btn btn-warning" type="submit">Disconnect from LinkedIn</button>	
 	<input type="hidden" name="_method" value="delete" />
 </form>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.openshift.jobfinder.domain.Account;
 import com.openshift.jobfinder.domain.Job;
@@ -122,22 +123,22 @@ public class JobFinderController {
 	}
 
 	@RequestMapping("/jobs/near/{location}/{skill}")
-	public String allJobsNearToLocationWithSkill(
+	@ResponseBody
+	public List<JobDistanceVo> allJobsNearToLocationWithSkill(
 			@PathVariable("location") String location,
 			@PathVariable("skill") String skill, Model model) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		double[] coordinates = coordinateFinder.find(location);
 		if (ArrayUtils.isEmpty(coordinates)) {
-			return "redirect:/linkedin";
+			return new ArrayList<JobDistanceVo>();
 		}
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<JobDistanceVo> localJobsWithDistance = findJobs(skill, latitude,
+		List<JobDistanceVo> jobs = findJobs(skill, latitude,
 				longitude);
-		model.addAttribute("jobs", localJobsWithDistance);
-		return "jobs";
+		return jobs;
 	}
 
 	@RequestMapping("/jobsforme")

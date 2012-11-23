@@ -11,6 +11,8 @@ public class Account {
 	private final String lastName;
 	
 	private final String address;
+	
+	private transient String fullName; 
 
 	public Account(String username, String password, String firstName, String lastName,String address) {
 		this.username = username;
@@ -39,6 +41,11 @@ public class Account {
 	public String getAddress() {
 		return address;
 	}
+	
+	public String getFullName() {
+		return firstName + " "+ lastName;
+	}
+	
 
 	@Override
 	public int hashCode() {

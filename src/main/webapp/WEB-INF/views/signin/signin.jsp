@@ -25,13 +25,13 @@
 		<label for="password">Password</label>
 		<input id="password" name="j_password" type="password" size="25" />	
 	</fieldset>
-	<button type="submit">Sign In</button>
+	<button class="btn btn-large btn-primary" type="submit">Sign In</button>
 	
 	<p>Or you can <a href="<c:url value="/signup"/>">signup</a> with a new account.</p>
 </form>
 
 	<!-- LINKEDIN SIGNIN -->
 	<form name="li_signin" id="li_signin" action="<c:url value="/signin/linkedin"/>" method="POST">
-		<button type="submit">Sign In with LinkedIn</button>
+		<button class="btn btn-large btn-primary" type="submit">Sign In with LinkedIn</button>
 	</form>
 	

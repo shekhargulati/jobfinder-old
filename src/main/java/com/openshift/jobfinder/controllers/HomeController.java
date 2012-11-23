@@ -28,7 +28,7 @@ public class HomeController {
 		this.accountRepository = accountRepository;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
 	public String home(Principal currentUser, Model model) {
 		model.addAttribute("connectionsToProviders", getConnectionRepository()
 				.findAllConnections());

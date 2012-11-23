@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page session="false" %>
-
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,10 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-	<script src="resources/js/jquery.js"></script>
-	<link rel="stylesheet" href="<c:url value="/resources/page.css" />" type="text/css" media="screen" />
-		<link rel="stylesheet" href="<c:url value="/resources/form.css" />" type="text/css" media="screen" />
-		<link rel="stylesheet" href="<c:url value="/resources/messages/messages.css" />" type="text/css" media="screen" />
+    <!-- Le styles -->
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -54,7 +52,6 @@
         margin-top: 28px;
       }
     </style>
-    
     <link href="resources/css/bootstrap-responsive.min.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -74,7 +71,7 @@
 
     <div class="container-narrow">
 
-      <div class="masthead">
+     <div class="masthead">
         <ul class="nav nav-pills pull-right">
         <sec:authorize access="isAuthenticated()">
         <li class="active"><a href="home">Home</a></li>
@@ -95,18 +92,15 @@
         </ul>
         <h3 class="muted">JobFinder</h3>
       </div>
-	<hr></hr>
-	<sec:authorize access="isAuthenticated()">
-      <div id="leftNav">
-			<tiles:insertTemplate template="menu.jsp" />
-		</div>
-		</sec:authorize>
-		
-		<div id="content" class="container">
-			<tiles:insertAttribute name="content" />
-		</div>	
 
       <hr>
+
+      <div class="jumbotron">
+        <h1>About the JobFinder Application!</h1>
+        <p class="lead">The application is build using Spring, MongoDB, PostgreSQL and deployed on OpenShift.</p>
+
+      <hr>
+      </div>
 
       <div class="footer">
         <p>Powered by <a href="https://openshift.redhat.com/" target="_blank">OpenShift</a></p>
@@ -115,7 +109,7 @@
     </div> <!-- /container -->
 
     <!-- Placed at the end of the document so the pages load faster -->
-    
+    <script src="resources/js/jquery.js"></script>
     <script src="resources/js/bootstrap-transition.js"></script>
     <script src="resources/js/bootstrap-alert.js"></script>
     <script src="resources/js/bootstrap-modal.js"></script>
@@ -131,4 +125,3 @@
 
   </body>
 </html>
-

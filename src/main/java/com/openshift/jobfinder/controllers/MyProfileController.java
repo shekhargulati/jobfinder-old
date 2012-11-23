@@ -13,23 +13,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.openshift.jobfinder.domain.Account;
+import com.openshift.jobfinder.jdbc.repository.AccountRepository;
+
 @Controller
-public class LinkedInController {
+public class MyProfileController {
 
 	@Inject
 	private ConnectionRepository connectionRepository;
+	@Inject
+	private AccountRepository accountRepository;
 
-	@RequestMapping(value = "/linkedin", method = RequestMethod.GET)
+	@RequestMapping(value = "/myprofile", method = RequestMethod.GET)
 	public String home(Principal currentUser, Model model) {
 		Connection<LinkedIn> connection = connectionRepository
 				.findPrimaryConnection(LinkedIn.class);
+		
+		String username = currentUser.getName();
+		Account account = accountRepository.findAccountByUsername(username);
 		if (connection == null) {
-			return "redirect:/connect/linkedin";
+			model.addAttribute("profile",new UserProfileVo(account));
+			return "profile/myprofile";
 		}
-		LinkedInProfile profile = connection.getApi().profileOperations()
+		LinkedInProfile linkedinProfile = connection.getApi().profileOperations()
 				.getUserProfile();
-		model.addAttribute("profile", profile);
-		return "linkedin/profile";
+		model.addAttribute("profile", new UserProfileVo(account, linkedinProfile));
+		model.addAttribute("isConnected",true);
+		return "profile/myprofile";
 	}
 
 	

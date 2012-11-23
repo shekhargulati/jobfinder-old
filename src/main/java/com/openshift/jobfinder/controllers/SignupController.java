@@ -46,7 +46,7 @@ public class SignupController {
 		if (account != null) {
 			SignInUtils.signin(account.getUsername());
 			ProviderSignInUtils.handlePostSignUp(account.getUsername(), request);
-			return "redirect:/linkedin";
+			return "redirect:/myprofile";
 		}
 		return null;
 	}

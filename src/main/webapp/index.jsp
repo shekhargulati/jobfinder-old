@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page session="false" %>
 <html lang="en">
   <head>
@@ -72,9 +73,22 @@
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+        <sec:authorize access="isAuthenticated()">
+        <li class="active"><a href="home">Home</a></li>
+        </sec:authorize>
+        
+        <sec:authorize access="!isAuthenticated()">
+        <li class="active"><a href="index.jsp">Home</a></li>
+        </sec:authorize>
+          
+          <li><a href="about.jsp">About</a></li>
+          <li><a href="contact.jsp">Contact</a></li>
+		
+		<sec:authorize access="isAuthenticated()">
+         
+          <li><a href="signout">Sign Out</a></li>
+          
+         </sec:authorize>
         </ul>
         <h3 class="muted">JobFinder</h3>
       </div>
