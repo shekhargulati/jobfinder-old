@@ -5,5 +5,7 @@
         
 	<definition name="page" templateExpression="/WEB-INF/layouts/page.jsp">
 	</definition>
+	<definition name="page-connect" templateExpression="/WEB-INF/layouts/page-connect.jsp">
+	</definition>
         
 </tiles-definitions>

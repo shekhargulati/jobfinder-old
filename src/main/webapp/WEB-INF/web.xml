@@ -18,7 +18,7 @@
 	<!-- Use the simplified configuration by default. -->
 	<context-param>
 		<param-name>spring.profiles.default</param-name>
-		<param-value>openshift</param-value>
+		<param-value>dev</param-value>
 	</context-param>
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -36,7 +36,7 @@
 		</init-param>
 		<init-param>
 			<param-name>spring.profiles.default</param-name>
-			<param-value>openshift</param-value>
+			<param-value>dev</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -92,7 +92,7 @@
 	</filter-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 		
 </web-app>

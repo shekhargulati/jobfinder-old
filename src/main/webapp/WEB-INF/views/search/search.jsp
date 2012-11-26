@@ -70,14 +70,8 @@
     	var longitude = $("#longitude").val();
     	var withinDistance = $("#withinDistance").val();
 
-    	alert(latitude);
-    	alert(longitude);
-    	alert(skills);
-    	
     	if(address){
-        	alert("first");
     		$.get("resources/templates/jobs.html", function (template){
-                //alert(template);
                 $.get("jobs/near/"+address+"/"+skills  , function (data){ 
                     $("#results").html("<h3>We have found following Jobs for you..</h3>");
                     $.tmpl(template, data).appendTo("#results"); 
@@ -85,7 +79,6 @@
 
             }); 
     	}else if(latitude && longitude  && skills){
-        	alert('second');
     		$.get("resources/templates/jobs.html", function (template){
                 //alert(template);
                 $.get("jobs/near/"+skills+"/?latitude="+latitude+"&longitude="+longitude , function (data){ 
@@ -95,7 +88,6 @@
 
             }); 
     	}else if(latitude && longitude){
-    		alert('third');
     		$.get("resources/templates/jobs.html", function (template){
                 //alert(template);
                 $.get("jobs/near/"+"?latitude="+latitude+"&longitude="+longitude , function (data){ 

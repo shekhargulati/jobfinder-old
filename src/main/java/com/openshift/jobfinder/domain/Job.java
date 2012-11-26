@@ -26,6 +26,8 @@ public class Job {
 	private String[] skills;
 
 	private String formattedAddress;
+	
+	private String[] appliedBy;
 
 	public Job(String id,String jobTitle,String[] skills, double[] location){
 		this.id = id;
@@ -86,9 +88,18 @@ public class Job {
 		return formattedAddress;
 	}
 
+	public void setAppliedBy(String[] appliedBy) {
+		this.appliedBy = appliedBy;
+	}
+	
+	public String[] getAppliedBy() {
+		return appliedBy;
+	}
+	
+	
 	public String toJson() {
 		return new JSONSerializer().include("location").include("company")
-				.include("skills").exclude("*.class").serialize(this);
+				.include("skills").include("appliedBy").exclude("*.class").serialize(this);
 	}
 
 	public static Job fromJson(String json) {
@@ -98,7 +109,7 @@ public class Job {
 
 	public static String toJsonArray(Collection<Job> collection) {
 		return new JSONSerializer().include("location").include("company")
-				.include("skills").exclude("*.class").serialize(collection);
+				.include("skills").include("skills").exclude("*.class").serialize(collection);
 	}
 
 	public static Collection<Job> fromJsonArray(String json) {

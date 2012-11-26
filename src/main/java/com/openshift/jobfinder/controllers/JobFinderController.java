@@ -150,14 +150,14 @@ public class JobFinderController {
 				.getCurrentLoggedInUsername());
 		double[] coordinates = coordinateFinder.find(account.getAddress());
 		if (ArrayUtils.isEmpty(coordinates)) {
-			return "redirect:/linkedin";
+			return "redirect:/myprofile";
 		}
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<JobDistanceVo> localJobsWithDistance = findJobsWithLocation(
+		List<JobDistanceVo> jobsWithDistance = findJobsWithLocation(
 				latitude, longitude);
-		model.addAttribute("jobs", localJobsWithDistance);
+		model.addAttribute("jobs", jobsWithDistance);
 		return "jobs";
 	}
 

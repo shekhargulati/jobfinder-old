@@ -78,7 +78,7 @@
         </sec:authorize>
         
         <sec:authorize access="!isAuthenticated()">
-        <li class="active"><a href="index.jsp">Home</a></li>
+        <li class="active"><a href="">Home</a></li>
         </sec:authorize>
           
           <li><a href="about.jsp">About</a></li>
