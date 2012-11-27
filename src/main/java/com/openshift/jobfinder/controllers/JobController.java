@@ -28,7 +28,7 @@ import com.openshift.jobfinder.service.JobFinderService;
 import com.openshift.jobfinder.utils.SecurityUtils;
 
 @Controller
-public class JobFinderController {
+public class JobController {
 
 	@Inject
 	private JobFinderService jobFinderService;
@@ -67,12 +67,12 @@ public class JobFinderController {
 		jobFinderService.saveJob(job);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		return new ResponseEntity<String>(job.toJson(), headers, HttpStatus.CREATED);
+		return new ResponseEntity<String>(job.toJson(), headers,
+				HttpStatus.CREATED);
 	}
-	
-	
+
 	@RequestMapping(value = "/jobs/{jobId}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteJob(@PathVariable("jobId")String jobId){
+	public ResponseEntity<String> deleteJob(@PathVariable("jobId") String jobId) {
 		Job job = jobFinderService.findOneJob(jobId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
@@ -117,8 +117,7 @@ public class JobFinderController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<JobDistanceVo> jobs = findJobs(skill, latitude,
-				longitude);
+		List<JobDistanceVo> jobs = findJobs(skill, latitude, longitude);
 		return jobs;
 	}
 
@@ -136,8 +135,7 @@ public class JobFinderController {
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<JobDistanceVo> jobs = findJobs(skill, latitude,
-				longitude);
+		List<JobDistanceVo> jobs = findJobs(skill, latitude, longitude);
 		return jobs;
 	}
 
@@ -155,10 +153,17 @@ public class JobFinderController {
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<JobDistanceVo> jobsWithDistance = findJobsWithLocation(
-				latitude, longitude);
+		List<JobDistanceVo> jobsWithDistance = findJobsWithLocation(latitude,
+				longitude);
 		model.addAttribute("jobs", jobsWithDistance);
 		return "jobs";
+	}
+
+	@RequestMapping(value = "/jobs/apply/{jobId}", method = RequestMethod.POST)
+	public String applyJob(@PathVariable("jobId") String jobId) {
+		String username = SecurityUtils.getCurrentLoggedInUsername();
+		jobFinderService.appyJob(jobId, username);
+		return "redirect:/search";
 	}
 
 	private List<JobDistanceVo> findJobs(String skill, double latitude,

@@ -12,14 +12,17 @@ public class Account {
 	
 	private final String address;
 	
+	private String skills;
+	
 	private transient String fullName; 
 
-	public Account(String username, String password, String firstName, String lastName,String address) {
+	public Account(String username, String password, String firstName, String lastName,String address,String skills) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
+		this.skills = skills;
 	}
 
 	public String getUsername() {
@@ -46,6 +49,9 @@ public class Account {
 		return firstName + " "+ lastName;
 	}
 	
+	public String getSkills() {
+		return skills;
+	}
 
 	@Override
 	public int hashCode() {

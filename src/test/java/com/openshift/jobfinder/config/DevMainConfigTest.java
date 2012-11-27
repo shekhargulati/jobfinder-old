@@ -1,6 +1,6 @@
 package com.openshift.jobfinder.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;

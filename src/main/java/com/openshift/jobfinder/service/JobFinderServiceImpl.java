@@ -1,5 +1,6 @@
 package com.openshift.jobfinder.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.openshift.jobfinder.domain.Job;
@@ -68,6 +70,29 @@ public class JobFinderServiceImpl implements JobFinderService {
 	@Override
 	public void deleteJob(Job job){
 		jobRepository.delete(job);
+	}
+
+	@Override
+	public void appyJob(String jobId, String username) {
+		Query query = Query.query(Criteria.where("_id").is(jobId));
+		Update update = new Update().addToSet("appliedBy", username);
+		mongoTemplate.updateFirst(query, update, Job.class);
+		
+	}
+
+	@Override
+	public List<Job> recommendJobs(double latitude, double longitude,
+			String[] skills, String username) {
+		Query query = Query.query(
+				Criteria.where("location").near(new Point(latitude, longitude))
+						.and("skills").in(Arrays.asList(skills)).and("appliedBy").nin(username)).limit(5);
+		return mongoTemplate.find(query, Job.class);
+	}
+
+	@Override
+	public List<Job> appliedJobs(String user) {
+		Query query = Query.query(Criteria.where("appliedBy").in(user));
+		return mongoTemplate.find(query, Job.class);
 	}
 	
 	

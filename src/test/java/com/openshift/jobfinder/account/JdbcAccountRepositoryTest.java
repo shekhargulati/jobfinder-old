@@ -26,7 +26,7 @@ public class JdbcAccountRepositoryTest {
 	
 	@Test
 	public void shouldCreateNewAccountAndFindUserByUserName() throws Exception{
-		Account account = new Account("test", "password", "test", "test", "test address");
+		Account account = new Account("test", "password", "test", "test", "test address","java,mongodb");
 		accountRepository.createAccount(account);
 		
 		Account persistedAccount = accountRepository.findAccountByUsername("test");

@@ -23,7 +23,6 @@ import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.MongodConfig;
 import de.flapdoodle.embed.mongo.config.RuntimeConfig;
 import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.extract.ITempNaming;
 import de.flapdoodle.embed.process.extract.UserTempNaming;
 
 public class JobFinderServiceImplTest {
@@ -77,19 +76,20 @@ public class JobFinderServiceImplTest {
 		List<Job> jobs = new ArrayList<Job>();
 		Job job1 = new Job("1","Job Title1",
 				new String[] { "java", "mongodb" },new double[]{33.978622, -118.404471});
+		job1.setAppliedBy(new String[]{"test"});
 		jobs.add(job1);
 		
 		jobs.add(new Job("2","Job Title2",
 				new String[] { "ruby", "mongodb" },new double[]{33.978622, -118.404471}));
 		
 		jobs.add(new Job("3","Job Title 3",
-				new String[] { "java", "mongodb" },new double[]{34.978622, -119.404471}));
+				new String[] { "clojure", "redis" },new double[]{34.978622, -119.404471}));
 		
 		jobs.add(new Job("4","Job Title 4",
 				new String[] { "scala", "mongodb" },new double[]{35.978622, -120.404471}));
 		
 		jobs.add(new Job("5","Job Title 5",
-				new String[] { "c#", "mongodb" },new double[]{35.978622, -120.404471}));
+				new String[] { "c#", "mysql" },new double[]{35.978622, -120.404471}));
 		return jobs;
 	}
 
@@ -125,7 +125,16 @@ public class JobFinderServiceImplTest {
 	@Test
 	public void shouldFindJobsNearToLocationWithASkill() {
 		List<Job> allJobsNearWithSkill = jobFinderService.findAllJobsNearWithSkill(33.978622, -118.404471, "java");
-		assertEquals(2, allJobsNearWithSkill.size());
+		assertEquals(1, allJobsNearWithSkill.size());
+	}
+	
+	@Test
+	public void shouldRecommendJobsBasedOnSkillsAndLocation() throws Exception{
+		List<Job> recommededJobs = jobFinderService.recommendJobs(33.978622, -118.404471, new String[]{"java","mongodb"}, "test");
+		assertEquals(2, recommededJobs.size());
+		
+		recommededJobs = jobFinderService.recommendJobs(33.978622, -118.404471, new String[]{"scala","redis"}, "test");
+		assertEquals(2, recommededJobs.size());
 	}
 
 }

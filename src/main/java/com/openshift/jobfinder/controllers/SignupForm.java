@@ -14,6 +14,8 @@ public class SignupForm {
 	
 	private String address;
 
+	private String skills;
+
 	public String getUsername() {
 		return username;
 	}
@@ -59,5 +61,13 @@ public class SignupForm {
 		form.setFirstName(providerUser.getFirstName());
 		form.setLastName(providerUser.getLastName());
 		return form;
+	}
+
+	public String getSkills() {
+		return skills;
+	}
+	
+	public void setSkills(String skills) {
+		this.skills = skills;
 	}
 }

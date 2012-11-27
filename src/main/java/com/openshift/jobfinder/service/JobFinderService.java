@@ -18,4 +18,10 @@ public interface JobFinderService {
 	public abstract long totalNumberOfJob();
 
 	public abstract Job saveJob(Job job);
+
+	void appyJob(String jobId, String username);
+	
+	List<Job> recommendJobs(double latitude, double longitude,String[] skills,String username);
+
+	List<Job> appliedJobs(String user);
 }

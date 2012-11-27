@@ -7,6 +7,4 @@
 
 <h4><a href="<c:url value="/myprofile"/>">My Profile</a></h4>
 
-<h4><a href="<c:url value="/jobsforme"/>">Jobs For Me</a></h4>
-
 <h4><a href="<c:url value="/search"/>">Search Jobs</a></h4>
