@@ -108,24 +108,24 @@ public class JobController {
 		return jobsVO;
 	}
 
-	@RequestMapping("/jobs/near/{skill}")
+	@RequestMapping("/jobs/near/{skills}")
 	@ResponseBody
 	public List<JobDistanceVo> allJobsNearLatitideAndLongitudeWithSkill(
-			@PathVariable("skill") String skill,
+			@PathVariable("skills") String[] skills,
 			@RequestParam("latitude") double latitude,
 			@RequestParam("longitude") double longitude, Model model) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		List<JobDistanceVo> jobs = findJobs(skill, latitude, longitude);
+		List<JobDistanceVo> jobs = findJobs(skills, latitude, longitude);
 		return jobs;
 	}
 
-	@RequestMapping("/jobs/near/{location}/{skill}")
+	@RequestMapping("/jobs/near/{location}/{skills}")
 	@ResponseBody
 	public List<JobDistanceVo> allJobsNearToLocationWithSkill(
 			@PathVariable("location") String location,
-			@PathVariable("skill") String skill, Model model) throws Exception {
+			@PathVariable("skills") String[] skills, Model model) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		double[] coordinates = coordinateFinder.find(location);
@@ -135,7 +135,7 @@ public class JobController {
 
 		double latitude = coordinates[0];
 		double longitude = coordinates[1];
-		List<JobDistanceVo> jobs = findJobs(skill, latitude, longitude);
+		List<JobDistanceVo> jobs = findJobs(skills, latitude, longitude);
 		return jobs;
 	}
 
@@ -166,10 +166,10 @@ public class JobController {
 		return "redirect:/search";
 	}
 
-	private List<JobDistanceVo> findJobs(String skill, double latitude,
+	private List<JobDistanceVo> findJobs(String[] skills, double latitude,
 			double longitude) {
 		List<Job> jobs = jobFinderService.findAllJobsNearWithSkill(latitude,
-				longitude, skill);
+				longitude, skills);
 		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(

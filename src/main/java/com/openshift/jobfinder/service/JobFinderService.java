@@ -11,7 +11,7 @@ public interface JobFinderService {
 
 	List<Job> findAllJobsNear(double latitude, double longitude);
 
-	List<Job> findAllJobsNearWithSkill(double latitude, double longitude,String skill);
+	List<Job> findAllJobsNearWithSkill(double latitude, double longitude,String[] skills);
 
 	public abstract void deleteJob(Job job);
 
