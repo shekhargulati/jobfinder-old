@@ -27,6 +27,11 @@
 		<td>${recommendedJob.address}</td>
 		<td>${recommendedJob.distance}</td>
 		<td>${recommendedJob.duration}</td>
+		<td>
+		<form id="applyJob" action="jobs/apply/${jobId}" method="POST">
+			<button class="btn btn-large btn-success" type="submit">Apply Job</button>
+		</form>
+		</td>
 	</tr>
 
 	</c:forEach>

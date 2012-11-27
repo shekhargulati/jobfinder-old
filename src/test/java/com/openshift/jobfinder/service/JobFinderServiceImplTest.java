@@ -124,7 +124,7 @@ public class JobFinderServiceImplTest {
 
 	@Test
 	public void shouldFindJobsNearToLocationWithASkill() {
-		List<Job> allJobsNearWithSkill = jobFinderService.findAllJobsNearWithSkill(33.978622, -118.404471, new String[]{"java"});
+		List<Job> allJobsNearWithSkill = jobFinderService.findAllJobsNearWithSkill(33.978622, -118.404471, new String[]{"java"},"test1");
 		assertEquals(1, allJobsNearWithSkill.size());
 	}
 	

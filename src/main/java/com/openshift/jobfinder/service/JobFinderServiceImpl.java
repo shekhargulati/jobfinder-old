@@ -50,10 +50,10 @@ public class JobFinderServiceImpl implements JobFinderService {
 
 	@Override
 	public List<Job> findAllJobsNearWithSkill(double latitude, double longitude,
-			String[] skills) {
+			String[] skills,String username) {
 		Query query = Query.query(
 				Criteria.where("location").near(new Point(latitude, longitude))
-				.and("skills").in(Arrays.asList(skills))).limit(5);
+				.and("skills").in(Arrays.asList(skills)).and("appliedBy").nin(username)).limit(5);
 		return mongoTemplate.find(query, Job.class);
 	}
 

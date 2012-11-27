@@ -125,7 +125,8 @@ public class JobController {
 	@ResponseBody
 	public List<JobDistanceVo> allJobsNearToLocationWithSkill(
 			@PathVariable("location") String location,
-			@PathVariable("skills") String[] skills, Model model) throws Exception {
+			@PathVariable("skills") String[] skills, Model model)
+			throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		double[] coordinates = coordinateFinder.find(location);
@@ -163,13 +164,13 @@ public class JobController {
 	public String applyJob(@PathVariable("jobId") String jobId) {
 		String username = SecurityUtils.getCurrentLoggedInUsername();
 		jobFinderService.appyJob(jobId, username);
-		return "redirect:/search";
+		return "redirect:/home";
 	}
 
 	private List<JobDistanceVo> findJobs(String[] skills, double latitude,
 			double longitude) {
 		List<Job> jobs = jobFinderService.findAllJobsNearWithSkill(latitude,
-				longitude, skills);
+				longitude, skills, SecurityUtils.getCurrentLoggedInUsername());
 		List<JobDistanceVo> locaJobsWithDistance = new ArrayList<JobDistanceVo>();
 		for (Job localJob : jobs) {
 			DistanceResponse response = googleDistanceClient.findDirections(
