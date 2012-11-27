@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/page.css" />" type="text/css" media="screen" />
 		<link rel="stylesheet" href="<c:url value="/resources/form.css" />" type="text/css" media="screen" />
 		<link rel="stylesheet" href="<c:url value="/resources/messages/messages.css" />" type="text/css" media="screen" />
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 20px;
@@ -55,7 +55,7 @@
       }
     </style>
     
-    <link href="resources/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-responsive.min.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -63,11 +63,11 @@
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="resources/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="resources/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="resources/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="resources/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="resources/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/resources/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/resources/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body>
@@ -116,18 +116,18 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     
-    <script src="resources/js/bootstrap-transition.js"></script>
-    <script src="resources/js/bootstrap-alert.js"></script>
-    <script src="resources/js/bootstrap-modal.js"></script>
-    <script src="resources/js/bootstrap-dropdown.js"></script>
-    <script src="resources/js/bootstrap-scrollspy.js"></script>
-    <script src="resources/js/bootstrap-tab.js"></script>
-    <script src="resources/js/bootstrap-tooltip.js"></script>
-    <script src="resources/js/bootstrap-popover.js"></script>
-    <script src="resources/js/bootstrap-button.js"></script>
-    <script src="resources/js/bootstrap-collapse.js"></script>
-    <script src="resources/js/bootstrap-carousel.js"></script>
-    <script src="resources/js/bootstrap-typeahead.js"></script>
+    <script src="/resources/js/bootstrap-transition.js"></script>
+    <script src="/resources/js/bootstrap-alert.js"></script>
+    <script src="/resources/js/bootstrap-modal.js"></script>
+    <script src="/resources/js/bootstrap-dropdown.js"></script>
+    <script src="/resources/js/bootstrap-scrollspy.js"></script>
+    <script src="/resources/js/bootstrap-tab.js"></script>
+    <script src="/resources/js/bootstrap-tooltip.js"></script>
+    <script src="/resources/js/bootstrap-popover.js"></script>
+    <script src="/resources/js/bootstrap-button.js"></script>
+    <script src="/resources/js/bootstrap-collapse.js"></script>
+    <script src="/resources/js/bootstrap-carousel.js"></script>
+    <script src="/resources/js/bootstrap-typeahead.js"></script>
 
   </body>
 </html>
